@@ -96,3 +96,14 @@
   height: 60%;
   margin: 10px auto;
 }
+
+/******************* Following *******************/
+.following-div {
+  width: 70%;
+  margin: auto;
+}
+
+.post-follow-div {
+  width: 70%;
+  margin: auto;
+}

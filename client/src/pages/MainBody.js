@@ -59,7 +59,7 @@ class MainBody extends React.Component {
           </Button>
         </Form>
         {this.state.post_list.map((post, i) => (
-          <Post key={`${i}-post`} content={post.content} />
+          <Post type="content" key={`${i}-post`} content={post.content} />
         ))}
       </div>
     );

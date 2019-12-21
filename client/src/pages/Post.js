@@ -8,10 +8,16 @@ class Post extends React.Component {
     return (
       <div className="post">
         <div className="post-photo"></div>
-        <div className="post-profile">
-          <div className="post-name">{localStorage.getItem('username')}</div>
-          <div className="post-content">{this.props.content}</div>
-        </div>
+        {this.props.type === 'content' ? (
+          <div className="post-profile">
+            <div className="post-name">{localStorage.getItem('username')}</div>
+            <div className="post-content">{this.props.content}</div>
+          </div>
+        ) : (
+          <div className="post-follow-div">
+            <div style={{ fontWeight: '700' }}>{this.props.content}</div>
+          </div>
+        )}
       </div>
     );
   }
