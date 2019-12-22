@@ -69,6 +69,7 @@
   flex-direction: row;
   margin: 20px auto;
   cursor: pointer;
+  position: relative;
 }
 
 .post:hover {

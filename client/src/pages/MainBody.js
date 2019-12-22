@@ -25,14 +25,13 @@ class MainBody extends React.Component {
     this.setState({
       post_list: body
     });
-    console.log(this.state.post_list);
   };
 
   handleChangeContent = e => {
     this.setState({ content: e.target.value });
   };
 
-  handleSubmit = async e => {
+  handleAdd = async () => {
     await fetch('/api/posts/', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -41,10 +40,23 @@ class MainBody extends React.Component {
     this.fetchAllPost();
   };
 
+  handleDelete = async post => {
+    await fetch('/api/posts/delete/', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: post.content,
+        username: post.username,
+        created_at: post.created_at
+      })
+    });
+    this.fetchAllPost();
+  };
+
   render() {
     return (
       <div className="main-body">
-        <Form noValidate onSubmit={this.handleSubmit} className="form">
+        <Form noValidate onSubmit={this.handleAdd} className="form">
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Control
               name="post"
@@ -59,7 +71,7 @@ class MainBody extends React.Component {
           </Button>
         </Form>
         {this.state.post_list.map((post, i) => (
-          <Post type="content" key={`${i}-post`} content={post.content} />
+          <Post type="content" key={`${i}-post`} post={post} onDelete={this.handleDelete} />
         ))}
       </div>
     );

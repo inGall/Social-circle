@@ -23,7 +23,6 @@ class Following extends React.Component {
     this.setState({
       following_list: body
     });
-    console.log(this.state.following_list);
   };
 
   render() {

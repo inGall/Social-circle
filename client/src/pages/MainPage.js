@@ -28,7 +28,7 @@ class MainPage extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: '#d8e0e6', height: '100vh' }}>
+      <div style={{ backgroundColor: '#d8e0e6', minHeight: '100vh' }}>
         <Navbar className="navBar">
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>

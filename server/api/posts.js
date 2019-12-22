@@ -14,7 +14,18 @@ router.get('/:username', (req, res) => {
 router.post('/', (req, res) => {
   var content = req.body.content;
   var username = req.body.username;
-  Posts.insert(content, username, (err, result) => {
+  var created_at = new Date().toLocaleString();
+  Posts.insert(content, username, created_at, (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+
+router.post('/delete/', (req, res) => {
+  var content = req.body.content;
+  var username = req.body.username;
+  var created_at = req.body.created_at;
+  Posts.delete(content, username, created_at, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });
