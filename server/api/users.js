@@ -18,6 +18,15 @@ router.get('/:username', (req, res) => {
   });
 });
 
+router.get('/retrieve/:username/:keyword', (req, res) => {
+  var username = req.params.username;
+  var keyword = req.params.keyword;
+  Users.fetchKeyUsers(username, keyword, (err, users) => {
+    if (err) return res.json(err);
+    return res.json(users);
+  });
+});
+
 router.get('/:username/:password', (req, res) => {
   var username = req.params.username;
   var password = req.params.password;

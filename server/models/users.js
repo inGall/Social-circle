@@ -26,6 +26,17 @@ class Users {
     );
   }
 
+  static fetchKeyUsers(username, keyword, callback) {
+    db.query(
+      "SELECT * from users WHERE username <> $1 AND UPPER(username) LIKE UPPER('%' || $2 || '%')",
+      [username, keyword],
+      (err, res) => {
+        if (err.error) return callback(err);
+        callback(res);
+      }
+    );
+  }
+
   static insert(username, password, callback) {
     db.query(
       'INSERT INTO Users (username, password) VALUES ($1, $2)',

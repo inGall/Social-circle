@@ -30,7 +30,13 @@ class Following extends React.Component {
       <div className="following-div">
         <div style={{ marginTop: '10px', fontWeight: '700' }}>Friends you are following</div>
         {this.state.following_list.map((friend, i) => (
-          <Post type="friend" key={`${i}-friend`} content={friend.followee} />
+          <Post
+            type="friend"
+            key={`${i}-friend`}
+            content={friend.followee}
+            user={this.state.username}
+            friend={friend.followee}
+          />
         ))}
       </div>
     );

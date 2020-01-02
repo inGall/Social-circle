@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import Test from './pages/Test';
+import Search from './pages/Search';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
           <Route exact path="/LoginPage" component={LoginPage} />
           <Route exact path="/MainPage" component={MainPage} />
           <Route exact path="/Test" component={Test} />
+          <Route exact path="/Search" component={Search} />
         </Switch>
       </Router>
     );

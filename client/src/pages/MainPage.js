@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Following from './Following';
 import Follower from './Follower';
 import { Navbar, Nav } from 'react-bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.css';
 
 class MainPage extends React.Component {
@@ -31,8 +32,8 @@ class MainPage extends React.Component {
       <div style={{ backgroundColor: '#d8e0e6', minHeight: '100vh' }}>
         <Navbar className="navBar">
           <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Featuress</Nav.Link>
+            <Nav.Link href="/MainPage">Home</Nav.Link>
+            <Nav.Link href="/Search">Search</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Navbar>

@@ -107,4 +107,6 @@
 .post-follow-div {
   width: 70%;
   margin: auto;
+  display: flex;
+  flex-direction: row;
 }
