@@ -42,7 +42,7 @@
 
 .acc-navbar {
   width: 90%;
-  margin-top: 10vh;
+  margin-top: 6vh;
   border: 1px solid rgb(3, 15, 14);
 }
 
@@ -90,7 +90,13 @@
 }
 
 .post-name {
+  margin-top: 10px;
   font-weight: 700;
+}
+
+.post-username {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .post-content {
@@ -100,11 +106,13 @@
 
 /******************* Following *******************/
 .following-div {
-  width: 70%;
+  width: 600px;
   margin: auto;
 }
 
-.post-follow-div {
+/******************* User *******************/
+
+.user-content {
   width: 70%;
   margin: auto;
   display: flex;

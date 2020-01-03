@@ -15,6 +15,13 @@ class Users {
     });
   }
 
+  static getName(username, callback) {
+    db.query('SELECT name from users WHERE username = $1', [username], (err, res) => {
+      if (err.error) return callback(err);
+      callback(res);
+    });
+  }
+
   static validateUser(username, password, callback) {
     db.query(
       'SELECT * from users WHERE username = $1 AND password = $2',

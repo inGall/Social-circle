@@ -8,17 +8,28 @@ class Profile extends React.Component {
   constructor() {
     super();
     this.state = {
+      name: '',
       username: localStorage.getItem('username'),
       post_list: [],
       following: [],
       follower: []
     };
+    this.fetchName = this.fetchName.bind(this);
   }
   componentDidMount() {
+    this.fetchName();
     this.fetchAllPost();
     this.fetchFollowing();
     this.fetchFollowers();
   }
+
+  fetchName = async () => {
+    const response = await fetch('/api/users/name/' + this.state.username);
+    const body = await response.json();
+    this.setState({
+      name: body[0].name
+    });
+  };
 
   fetchAllPost = async () => {
     const response = await fetch('/api/posts/' + this.state.username);
@@ -55,7 +66,8 @@ class Profile extends React.Component {
           <div className="photo"></div>
         </div>
         <div className="acc-ph">
-          <h1 className="username-ph">{localStorage.getItem('username')}</h1>
+          <h1 className="username-ph">{this.state.name}</h1>
+          <h4 style={{ color: '#28B463' }}>{'@' + this.state.username}</h4>
           <Navbar className="navBar acc-navbar">
             <Nav
               className="mr-auto"

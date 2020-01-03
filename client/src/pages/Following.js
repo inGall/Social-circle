@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 
-import Post from './Post';
+import User from './User';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class Following extends React.Component {
@@ -30,8 +30,7 @@ class Following extends React.Component {
       <div className="following-div">
         <div style={{ marginTop: '10px', fontWeight: '700' }}>Friends you are following</div>
         {this.state.following_list.map((friend, i) => (
-          <Post
-            type="friend"
+          <User
             key={`${i}-friend`}
             content={friend.followee}
             user={this.state.username}

@@ -71,7 +71,7 @@ class MainBody extends React.Component {
           </Button>
         </Form>
         {this.state.post_list.map((post, i) => (
-          <Post type="content" key={`${i}-post`} post={post} onDelete={this.handleDelete} />
+          <Post key={`${i}-post`} post={post} onDelete={this.handleDelete} />
         ))}
       </div>
     );

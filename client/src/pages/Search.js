@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 
-import Post from './Post';
+import User from './User';
 import { Navbar, Nav } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { MDBCol, MDBIcon } from 'mdbreact';
@@ -51,8 +51,7 @@ class Search extends React.Component {
           </form>
         </MDBCol>
         {this.state.user_list.map((friend, i) => (
-          <Post
-            type="friend"
+          <User
             key={`${i}-friend`}
             content={friend.username}
             user={this.state.username}

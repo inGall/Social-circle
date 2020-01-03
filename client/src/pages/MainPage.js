@@ -34,7 +34,6 @@ class MainPage extends React.Component {
           <Nav className="mr-auto">
             <Nav.Link href="/MainPage">Home</Nav.Link>
             <Nav.Link href="/Search">Search</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
           </Nav>
         </Navbar>
         <Profile handleClick={this.changeView} />
