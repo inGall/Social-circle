@@ -17,11 +17,15 @@ class Search extends React.Component {
   }
 
   handleInputChange(e) {
-    this.fetchKeyUsers(e.target.value);
+    if (e.target.value !== '') {
+      this.fetchUsersWithKeyword(e.target.value);
+    }
   }
 
-  fetchKeyUsers = async keyword => {
-    const response = await fetch('/api/users/retrieve/' + this.state.username + '/' + keyword);
+  fetchUsersWithKeyword = async keyword => {
+    const response = await fetch(
+      '/api/users/fetchUsersWithKeyword/' + this.state.username + '/' + keyword
+    );
     const body = await response.json();
     this.setState({
       user_list: body
@@ -35,7 +39,7 @@ class Search extends React.Component {
           <Nav className="mr-auto">
             <Nav.Link href="/MainPage">Home</Nav.Link>
             <Nav.Link href="/Search">Search</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="/Request">Requests</Nav.Link>
           </Nav>
         </Navbar>
         <MDBCol md="6">

@@ -27,10 +27,10 @@ class LoginPage extends React.Component {
     this.setState({ [name]: value });
   }
 
-  validateUser = async () => {
+  validateCredentials = async () => {
     var username = this.state.username;
     var password = this.state.password;
-    const response = await fetch('/api/users/' + username + '/' + password);
+    const response = await fetch('/api/users/validateCredentials/' + username + '/' + password);
     const body = await response.json();
     if (body.length && username !== '' && password !== '') {
       this.login();
@@ -56,10 +56,11 @@ class LoginPage extends React.Component {
     });
   }
 
-  checkIfUserExist = async () => {
+  checkIfUserAlreadyExist = async () => {
     var username = this.state.username;
-    const response = await fetch('/api/users/' + username);
+    const response = await fetch('/api/users/checkIfUserAlreadyExist/' + username);
     const body = await response.json();
+    console.log(body);
     if (!body.length) {
       this.signup();
     } else {
@@ -68,7 +69,7 @@ class LoginPage extends React.Component {
   };
 
   signup = async () => {
-    await fetch('/api/users', {
+    await fetch('/api/users/signup', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: this.state.username, password: this.state.password })
@@ -119,12 +120,12 @@ class LoginPage extends React.Component {
               <Button
                 variant="primary"
                 type="button"
-                onClick={this.validateUser}
+                onClick={this.validateCredentials}
                 style={{ marginRight: '10px' }}
               >
                 Login
               </Button>
-              <Button variant="success" type="button" onClick={this.checkIfUserExist}>
+              <Button variant="success" type="button" onClick={this.checkIfUserAlreadyExist}>
                 Signup
               </Button>
             </Form>

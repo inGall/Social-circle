@@ -3,44 +3,58 @@ var Follows = require('../models/follows');
 
 var router = express.Router();
 
-router.get('/following/:username', (req, res) => {
+/* Following.js, Profile.js */
+router.get('/fetchUsersThatIFollow/:username', (req, res) => {
   var username = req.params.username;
-  Follows.retrieveFollowing(username, (err, posts) => {
+  Follows.fetchUsersThatIFollow(username, (err, posts) => {
     if (err) return res.json(err);
     return res.json(posts);
   });
 });
 
-router.get('/follower/:username', (req, res) => {
+/* Follower.js, Profile.js */
+router.get('/fetchUsersThatFollowMe/:username', (req, res) => {
   var username = req.params.username;
-  Follows.retrieveFollower(username, (err, posts) => {
+  Follows.fetchUsersThatFollowMe(username, (err, posts) => {
     if (err) return res.json(err);
     return res.json(posts);
   });
 });
 
-router.get('/follow/:follower/:followee', (req, res) => {
+/* MainBody.js */
+router.get('/fetchFollowingName/:username', (req, res) => {
+  var username = req.params.username;
+  Follows.fetchFollowingName(username, (err, posts) => {
+    if (err) return res.json(err);
+    return res.json(posts);
+  });
+});
+
+/* User.js */
+router.get('/fetchIfFollow/:follower/:followee', (req, res) => {
   var follower = req.params.follower;
   var followee = req.params.followee;
-  Follows.checkFollowing(follower, followee, (err, posts) => {
+  Follows.fetchIfFollow(follower, followee, (err, posts) => {
     if (err) return res.json(err);
     return res.json(posts);
   });
 });
 
-router.post('/insert', (req, res) => {
+/* User.js */
+router.post('/handleFollow', (req, res) => {
   var follower = req.body.follower;
   var followee = req.body.followee;
-  Follows.insert(follower, followee, (err, result) => {
+  Follows.handleFollow(follower, followee, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });
 });
 
-router.post('/delete', (req, res) => {
+/* User.js */
+router.post('/handleUnfollow', (req, res) => {
   var follower = req.body.follower;
   var followee = req.body.followee;
-  Follows.delete(follower, followee, (err, result) => {
+  Follows.handleUnfollow(follower, followee, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });

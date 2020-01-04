@@ -10,44 +10,49 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:username', (req, res) => {
+/* LoginPage.js */
+router.get('/checkIfUserAlreadyExist/:username', (req, res) => {
   var username = req.params.username;
-  Users.checkIfUserExist(username, (err, users) => {
+  Users.checkIfUserAlreadyExist(username, (err, users) => {
     if (err) return res.json(err);
     return res.json(users);
   });
 });
 
-router.get('/name/:username', (req, res) => {
+/* Post.js, Profile.js, User.js */
+router.get('/fetchNameOfUser/:username', (req, res) => {
   var username = req.params.username;
-  Users.getName(username, (err, users) => {
+  Users.fetchNameOfUser(username, (err, users) => {
     if (err) return res.json(err);
     return res.json(users);
   });
 });
 
-router.get('/retrieve/:username/:keyword', (req, res) => {
+/* Search.js */
+router.get('/fetchUsersWithKeyword/:username/:keyword', (req, res) => {
   var username = req.params.username;
   var keyword = req.params.keyword;
-  Users.fetchKeyUsers(username, keyword, (err, users) => {
+  Users.fetchUsersWithKeyword(username, keyword, (err, users) => {
     if (err) return res.json(err);
     return res.json(users);
   });
 });
 
-router.get('/:username/:password', (req, res) => {
+/* LoginPage.js */
+router.get('/validateCredentials/:username/:password', (req, res) => {
   var username = req.params.username;
   var password = req.params.password;
-  Users.validateUser(username, password, (err, users) => {
+  Users.validateCredentials(username, password, (err, users) => {
     if (err) return res.json(err);
     return res.json(users);
   });
 });
 
-router.post('/', (req, res) => {
+/* LoginPage.js */
+router.post('/signup', (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
-  Users.insert(username, password, (err, result) => {
+  Users.signup(username, password, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });

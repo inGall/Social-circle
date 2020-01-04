@@ -1,21 +1,32 @@
 const db = require('../database');
 
 class Follows {
-  static retrieveFollowing(username, callback) {
+  /* Following.js, Profile.js */
+  static fetchUsersThatIFollow(username, callback) {
     db.query('SELECT * from Follows WHERE follower = $1', [username], (err, res) => {
       if (err.error) return callback(err);
       callback(res);
     });
   }
 
-  static retrieveFollower(username, callback) {
+  /* Follower.js, Profile.js */
+  static fetchUsersThatFollowMe(username, callback) {
     db.query('SELECT * from Follows WHERE followee = $1', [username], (err, res) => {
       if (err.error) return callback(err);
       callback(res);
     });
   }
 
-  static checkFollowing(follower, followee, callback) {
+  /* MainBody.js */
+  static fetchFollowingName(username, callback) {
+    db.query('SELECT followee from Follows WHERE follower = $1', [username], (err, res) => {
+      if (err.error) return callback(err);
+      callback(res);
+    });
+  }
+
+  /* User.js */
+  static fetchIfFollow(follower, followee, callback) {
     db.query(
       'SELECT * from Follows WHERE follower = $1 AND followee = $2',
       [follower, followee],
@@ -26,7 +37,8 @@ class Follows {
     );
   }
 
-  static insert(follower, followee, callback) {
+  /* User.js */
+  static handleFollow(follower, followee, callback) {
     db.query(
       'INSERT INTO Follows (follower, followee) VALUES ($1, $2)',
       [follower, followee],
@@ -37,7 +49,8 @@ class Follows {
     );
   }
 
-  static delete(follower, followee, callback) {
+  /* User.js */
+  static handleUnfollow(follower, followee, callback) {
     db.query(
       'DELETE FROM Follows WHERE follower = $1 AND followee = $2',
       [follower, followee],

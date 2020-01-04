@@ -6,24 +6,33 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class Post extends React.Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
       name: '',
       username: localStorage.getItem('username')
     };
-    this.fetchName = this.fetchName.bind(this);
-  }
-  componentDidMount() {
-    this.fetchName();
+    this.fetchNameOfUser = this.fetchNameOfUser.bind(this);
   }
 
-  fetchName = async () => {
-    const response = await fetch('/api/users/name/' + this.state.username);
+  componentDidMount() {
+    this._isMounted = true;
+    this.fetchNameOfUser();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  fetchNameOfUser = async () => {
+    const response = await fetch('/api/users/fetchNameOfUser/' + this.state.username);
     const body = await response.json();
-    this.setState({
-      name: body[0].name
-    });
+    if (this._isMounted) {
+      this.setState({
+        name: body[0].name
+      });
+    }
   };
 
   handleSelect = eventKey => {
@@ -50,7 +59,7 @@ class Post extends React.Component {
 
   render() {
     return (
-      <div className="post">
+      <div className="post" style={{ border: '2px solid #28B463 ' }}>
         <div className="post-photo"></div>
         <div className="post-profile">
           <div style={{ display: 'flex', flexDirection: 'row' }}>

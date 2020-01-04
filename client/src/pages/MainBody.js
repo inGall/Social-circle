@@ -6,33 +6,55 @@ import { Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class MainBody extends React.Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
       username: localStorage.getItem('username'),
       content: '',
-      post_list: []
+      post_list: [],
+      following_name_list: []
     };
   }
 
   componentDidMount() {
+    this._isMounted = true;
     this.fetchAllPost();
+    this.fetchFollowingName();
+    this.fetchFollowingPost();
   }
 
-  fetchAllPost = async () => {
-    const response = await fetch('/api/posts/' + this.state.username);
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  fetchFollowingName = async () => {
+    const response = await fetch('/api/follows/fetchFollowingName/' + this.state.username);
     const body = await response.json();
     this.setState({
-      post_list: body
+      following_name_list: body
     });
+    console.log(this.state.following_name_list);
   };
+
+  fetchAllPost = async () => {
+    const response = await fetch('/api/posts/fetchAllPost/' + this.state.username);
+    const body = await response.json();
+    if (this._isMounted) {
+      this.setState({
+        post_list: body
+      });
+    }
+  };
+
+  fetchFollowingPost = async () => {};
 
   handleChangeContent = e => {
     this.setState({ content: e.target.value });
   };
 
-  handleAdd = async () => {
-    await fetch('/api/posts/', {
+  handleAddPost = async () => {
+    await fetch('/api/posts/handleAddPost', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: this.state.username, content: this.state.content })
@@ -40,8 +62,8 @@ class MainBody extends React.Component {
     this.fetchAllPost();
   };
 
-  handleDelete = async post => {
-    await fetch('/api/posts/delete/', {
+  handleRemovePost = async post => {
+    await fetch('/api/posts/handleRemovePost', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -56,7 +78,7 @@ class MainBody extends React.Component {
   render() {
     return (
       <div className="main-body">
-        <Form noValidate onSubmit={this.handleAdd} className="form">
+        <Form noValidate onSubmit={this.handleAddPost} className="form">
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Control
               name="post"
@@ -71,7 +93,7 @@ class MainBody extends React.Component {
           </Button>
         </Form>
         {this.state.post_list.map((post, i) => (
-          <Post key={`${i}-post`} post={post} onDelete={this.handleDelete} />
+          <Post key={`${i}-post`} post={post} onDelete={this.handleRemovePost} />
         ))}
       </div>
     );

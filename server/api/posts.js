@@ -3,29 +3,32 @@ var Posts = require('../models/posts');
 
 var router = express.Router();
 
-router.get('/:username', (req, res) => {
+/* MainBody.js, Profile.js */
+router.get('/fetchAllPost/:username', (req, res) => {
   var username = req.params.username;
-  Posts.retrieveAll(username, (err, posts) => {
+  Posts.fetchAllPost(username, (err, posts) => {
     if (err) return res.json(err);
     return res.json(posts);
   });
 });
 
-router.post('/', (req, res) => {
+/* MainBody.js */
+router.post('/handleAddPost', (req, res) => {
   var content = req.body.content;
   var username = req.body.username;
   var created_at = new Date().toLocaleString();
-  Posts.insert(content, username, created_at, (err, result) => {
+  Posts.handleAddPost(content, username, created_at, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });
 });
 
-router.post('/delete/', (req, res) => {
+/* MainBody.js */
+router.post('/handleRemovePost', (req, res) => {
   var content = req.body.content;
   var username = req.body.username;
   var created_at = req.body.created_at;
-  Posts.delete(content, username, created_at, (err, result) => {
+  Posts.handleRemovePost(content, username, created_at, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });

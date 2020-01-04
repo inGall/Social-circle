@@ -14,11 +14,11 @@ class Following extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchAllFollowers();
+    this.fetchUsersThatIFollow();
   }
 
-  fetchAllFollowers = async () => {
-    const response = await fetch('/api/follows/following/' + this.state.username);
+  fetchUsersThatIFollow = async () => {
+    const response = await fetch('/api/follows/fetchUsersThatIFollow/' + this.state.username);
     const body = await response.json();
     this.setState({
       following_list: body

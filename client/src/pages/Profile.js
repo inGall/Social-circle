@@ -14,17 +14,17 @@ class Profile extends React.Component {
       following: [],
       follower: []
     };
-    this.fetchName = this.fetchName.bind(this);
+    this.fetchNameOfUser = this.fetchNameOfUser.bind(this);
   }
   componentDidMount() {
-    this.fetchName();
+    this.fetchNameOfUser();
     this.fetchAllPost();
-    this.fetchFollowing();
-    this.fetchFollowers();
+    this.fetchUsersThatIFollow();
+    this.fetchUsersThatFollowMe();
   }
 
-  fetchName = async () => {
-    const response = await fetch('/api/users/name/' + this.state.username);
+  fetchNameOfUser = async () => {
+    const response = await fetch('/api/users/fetchNameOfUser/' + this.state.username);
     const body = await response.json();
     this.setState({
       name: body[0].name
@@ -32,23 +32,23 @@ class Profile extends React.Component {
   };
 
   fetchAllPost = async () => {
-    const response = await fetch('/api/posts/' + this.state.username);
+    const response = await fetch('/api/posts/fetchAllPost/' + this.state.username);
     const body = await response.json();
     this.setState({
       post_list: body
     });
   };
 
-  fetchFollowing = async () => {
-    const response = await fetch('/api/follows/following/' + this.state.username);
+  fetchUsersThatIFollow = async () => {
+    const response = await fetch('/api/follows/fetchUsersThatIFollow/' + this.state.username);
     const body = await response.json();
     this.setState({
       following: body
     });
   };
 
-  fetchFollowers = async () => {
-    const response = await fetch('/api/follows/follower/' + this.state.username);
+  fetchUsersThatFollowMe = async () => {
+    const response = await fetch('/api/follows/fetchUsersThatFollowMe/' + this.state.username);
     const body = await response.json();
     this.setState({
       follower: body

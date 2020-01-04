@@ -18,7 +18,7 @@ class User extends React.Component {
 
   componentDidMount() {
     this._isMounted = true;
-    this.fetchName();
+    this.fetchNameOfUser();
     this.fetchIfFollow();
   }
 
@@ -26,18 +26,20 @@ class User extends React.Component {
     this._isMounted = false;
   }
 
-  fetchName = async () => {
-    const response = await fetch('/api/users/name/' + this.props.friend);
+  fetchNameOfUser = async () => {
+    const response = await fetch('/api/users/fetchNameOfUser/' + this.props.friend);
     const body = await response.json();
-    this.setState({
-      name: body[0].name
-    });
+    if (this._isMounted) {
+      this.setState({
+        name: body[0].name
+      });
+    }
   };
 
   fetchIfFollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
-    const response = await fetch('/api/follows/follow/' + follower + '/' + followee);
+    const response = await fetch('/api/follows/fetchIfFollow/' + follower + '/' + followee);
     const body = await response.json();
     if (this._isMounted) {
       this.setState({
@@ -66,10 +68,10 @@ class User extends React.Component {
     }
   }
 
-  handleUnfollow = async () => {
+  handleFollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
-    await fetch('/api/follows/delete', {
+    await fetch('/api/follows/handleFollow', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ follower: follower, followee: followee })
@@ -77,10 +79,10 @@ class User extends React.Component {
     this.fetchIfFollow();
   };
 
-  handleFollow = async () => {
+  handleUnfollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
-    await fetch('/api/follows/insert', {
+    await fetch('/api/follows/handleUnfollow', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ follower: follower, followee: followee })
@@ -90,7 +92,14 @@ class User extends React.Component {
 
   render() {
     return (
-      <div className="post">
+      <div
+        className="post"
+        style={
+          this.state.status === 'Following'
+            ? { border: '2px solid rgb(154, 38, 189)' }
+            : { border: ' 2px solid #5bc0de' }
+        }
+      >
         <div className="post-photo"></div>
         <div className="user-content">
           <div>

@@ -1,31 +1,18 @@
 import React from 'react';
 import '../App.css';
 
-import MainBody from './MainBody';
-import Profile from './Profile';
-import Following from './Following';
-import Follower from './Follower';
 import { Navbar, Nav } from 'react-bootstrap';
-
 import 'bootstrap/dist/css/bootstrap.css';
 
-class MainPage extends React.Component {
+class Request extends React.Component {
   constructor() {
     super();
     this.state = {
-      post: true,
-      following: false,
-      follower: false
+      following_list: []
     };
   }
 
-  changeView = eventKey => {
-    this.setState({
-      post: eventKey === 'post',
-      following: eventKey === 'following',
-      follower: eventKey === 'follower'
-    });
-  };
+  componentDidMount() {}
 
   render() {
     return (
@@ -37,11 +24,10 @@ class MainPage extends React.Component {
             <Nav.Link href="/Request">Requests</Nav.Link>
           </Nav>
         </Navbar>
-        <Profile handleClick={this.changeView} />
-        {this.state.post ? <MainBody /> : this.state.following ? <Following /> : <Follower />}
+        <div>Request</div>
       </div>
     );
   }
 }
 
-export default MainPage;
+export default Request;
