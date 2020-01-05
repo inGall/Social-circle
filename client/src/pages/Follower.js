@@ -23,7 +23,6 @@ class Follower extends React.Component {
     this.setState({
       follower_list: body
     });
-    console.log(this.state.follower_list);
   };
 
   render() {

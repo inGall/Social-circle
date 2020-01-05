@@ -12,30 +12,18 @@ class MainBody extends React.Component {
     this.state = {
       username: localStorage.getItem('username'),
       content: '',
-      post_list: [],
-      following_name_list: []
+      post_list: []
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
     this.fetchAllPost();
-    this.fetchFollowingName();
-    this.fetchFollowingPost();
   }
 
   componentWillUnmount() {
     this._isMounted = false;
   }
-
-  fetchFollowingName = async () => {
-    const response = await fetch('/api/follows/fetchFollowingName/' + this.state.username);
-    const body = await response.json();
-    this.setState({
-      following_name_list: body
-    });
-    console.log(this.state.following_name_list);
-  };
 
   fetchAllPost = async () => {
     const response = await fetch('/api/posts/fetchAllPost/' + this.state.username);
@@ -45,9 +33,8 @@ class MainBody extends React.Component {
         post_list: body
       });
     }
+    console.log(this.state.post_list);
   };
-
-  fetchFollowingPost = async () => {};
 
   handleChangeContent = e => {
     this.setState({ content: e.target.value });

@@ -2,10 +2,14 @@ const db = require('../database');
 
 class Posts {
   static fetchAllPost(username, callback) {
-    db.query('SELECT * from Posts WHERE username = $1', [username], (err, res) => {
-      if (err.error) return callback(err);
-      callback(res);
-    });
+    db.query(
+      'SELECT * FROM Posts WHERE username IN (SELECT followee FROM follows WHERE follower = $1) OR username = $1 ORDER BY created_at DESC',
+      [username],
+      (err, res) => {
+        if (err.error) return callback(err);
+        callback(res);
+      }
+    );
   }
 
   static handleAddPost(content, username, created_at, callback) {

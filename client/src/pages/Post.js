@@ -26,7 +26,7 @@ class Post extends React.Component {
   }
 
   fetchNameOfUser = async () => {
-    const response = await fetch('/api/users/fetchNameOfUser/' + this.state.username);
+    const response = await fetch('/api/users/fetchNameOfUser/' + this.props.post.username);
     const body = await response.json();
     if (this._isMounted) {
       this.setState({
@@ -59,25 +59,36 @@ class Post extends React.Component {
 
   render() {
     return (
-      <div className="post" style={{ border: '2px solid #28B463 ' }}>
+      <div
+        className="post"
+        style={
+          this.props.post.username === this.state.username
+            ? { border: '2px solid #28B463' }
+            : { border: '2px solid #F1C40F' }
+        }
+      >
         <div className="post-photo"></div>
         <div className="post-profile">
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <div className="post-name">{this.state.name}</div>
-            <div className="post-username">{'@' + this.state.username}</div>
+            <div className="post-username">{'@' + this.props.post.username}</div>
           </div>
           <div className="post-content">{this.props.post.content}</div>
         </div>
-        <Dropdown onSelect={this.handleSelect} style={{ position: 'absolute', right: '0' }}>
-          <Dropdown.Toggle
-            variant="outline-secondary"
-            id="dropdown-basic"
-            style={{ height: '40px' }}
-          ></Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="1">Remove Post</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        {this.props.post.username === this.state.username ? (
+          <Dropdown onSelect={this.handleSelect} style={{ position: 'absolute', right: '0' }}>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              id="dropdown-basic"
+              style={{ height: '40px' }}
+            ></Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item eventKey="1">Remove Post</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <div />
+        )}
       </div>
     );
   }
