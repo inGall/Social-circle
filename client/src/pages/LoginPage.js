@@ -37,14 +37,14 @@ class LoginPage extends React.Component {
     const response = await fetch('/api/users/validateCredentials/' + username + '/' + password);
     const body = await response.json();
     if (body.length && username !== '' && password !== '') {
-      this.login();
+      this.login(body[0].username);
     } else {
       this.loginStatusAlert();
     }
   };
 
-  login = async () => {
-    localStorage.setItem('username', this.state.username);
+  login = async username => {
+    localStorage.setItem('username', username);
     this.props.history.push('/MainPage');
   };
 
@@ -130,12 +130,7 @@ class LoginPage extends React.Component {
                 </Form.Group>
                 <Form.Group style={{ marginLeft: 'auto', width: '48%' }}>
                   <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    name="name"
-                    type="text"
-                    placeholder="Eg. John"
-                    onChange={this.handleChange}
-                  />
+                  <Form.Control name="name" type="text" placeholder="Eg. John" onChange={this.handleChange} />
                 </Form.Group>
               </div>
               <Form.Group>

@@ -10,7 +10,7 @@ class Users {
 
   /* LoginPage.js */
   static checkIfUserAlreadyExist(username, callback) {
-    db.query('SELECT * from users WHERE username = $1', [username], (err, res) => {
+    db.query('SELECT * from users WHERE UPPER(username) = UPPER($1)', [username], (err, res) => {
       if (err.error) return callback(err);
       callback(res);
     });
@@ -47,7 +47,7 @@ class Users {
   /* LoginPage.js */
   static validateCredentials(username, password, callback) {
     db.query(
-      'SELECT * from users WHERE username = $1 AND password = $2',
+      'SELECT username from users WHERE UPPER(username) = UPPER($1) AND password = $2',
       [username, password],
       (err, res) => {
         if (err.error) return callback(err);
@@ -78,14 +78,10 @@ class Users {
 
   /* Setting.js */
   static changePassword(username, password, callback) {
-    db.query(
-      'UPDATE Users SET password = $1 WHERE username = $2',
-      [password, username],
-      (err, res) => {
-        if (err.error) return callback(err);
-        callback(res);
-      }
-    );
+    db.query('UPDATE Users SET password = $1 WHERE username = $2', [password, username], (err, res) => {
+      if (err.error) return callback(err);
+      callback(res);
+    });
   }
 }
 

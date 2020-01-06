@@ -142,7 +142,7 @@ class Setting extends React.Component {
     return (
       <div style={{ backgroundColor: '#d8e0e6', minHeight: '100vh' }}>
         <Navbar className="navBar">
-          <Nav className="mr-auto">
+          <Nav className="mr-auto navFont">
             <Nav.Link href="/MainPage">Home</Nav.Link>
             <Nav.Link href="/Search">Search</Nav.Link>
             <Nav.Link href="/Request">Requests</Nav.Link>
@@ -153,7 +153,7 @@ class Setting extends React.Component {
           </Nav>
         </Navbar>
         <div className="setting">
-          <hr className="line" />
+          <p className="line" />
           <div className="flex-row">
             <div className="setting-row titleFont">Name: </div>
             {this.state.nameMode === 'Edit' ? (
@@ -224,6 +224,7 @@ class Setting extends React.Component {
               </div>
             )}
           </div>
+          <p className="line" />
         </div>
       </div>
     );

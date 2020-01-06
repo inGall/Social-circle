@@ -34,7 +34,7 @@ class Search extends React.Component {
     return (
       <div style={{ backgroundColor: '#d8e0e6', minHeight: '100vh' }}>
         <Navbar className="navBar">
-          <Nav className="mr-auto">
+          <Nav className="mr-auto navFont">
             <Nav.Link href="/MainPage">Home</Nav.Link>
             <Nav.Link href="/Search">Search</Nav.Link>
             <Nav.Link href="/Request">Requests</Nav.Link>
@@ -44,26 +44,28 @@ class Search extends React.Component {
             </Nav.Link>
           </Nav>
         </Navbar>
-        <MDBCol md="6">
-          <form className="form-inline mt-4 mb-4">
-            <MDBIcon icon="search" />
-            <input
-              className="form-control form-control-sm ml-3 w-75"
-              type="text"
-              onChange={this.handleInputChange}
-              placeholder="Search"
-              aria-label="Search"
+        <div style={{ margin: 'auto', width: '70%' }}>
+          <MDBCol style={{ margin: 'auto' }} md="10">
+            <form className="form-inline mt-4 mb-4">
+              <MDBIcon icon="search" />
+              <input
+                className="form-control form-control-sm ml-3 w-75"
+                type="text"
+                onChange={this.handleInputChange}
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </form>
+          </MDBCol>
+          {this.state.user_list.map((friend, i) => (
+            <User
+              key={`${i}-friend`}
+              content={friend.username}
+              user={this.state.username}
+              friend={friend.username}
             />
-          </form>
-        </MDBCol>
-        {this.state.user_list.map((friend, i) => (
-          <User
-            key={`${i}-friend`}
-            content={friend.username}
-            user={this.state.username}
-            friend={friend.username}
-          />
-        ))}
+          ))}
+        </div>
       </div>
     );
   }

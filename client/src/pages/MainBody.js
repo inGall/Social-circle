@@ -33,7 +33,6 @@ class MainBody extends React.Component {
         post_list: body
       });
     }
-    console.log(this.state.post_list);
   };
 
   handleChangeContent = e => {
