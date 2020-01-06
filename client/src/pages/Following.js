@@ -25,6 +25,11 @@ class Following extends React.Component {
     });
   };
 
+  handleFollowUpdate = async () => {
+    await this.fetchUsersThatIFollow();
+    window.location.reload();
+  };
+
   render() {
     return (
       <div className="following-div">
@@ -35,6 +40,7 @@ class Following extends React.Component {
             content={friend.followee}
             user={this.state.username}
             friend={friend.followee}
+            handleUpdate={this.handleFollowUpdate}
           />
         ))}
       </div>

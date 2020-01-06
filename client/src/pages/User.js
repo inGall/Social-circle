@@ -77,6 +77,7 @@ class User extends React.Component {
       body: JSON.stringify({ follower: follower, followee: followee })
     });
     this.fetchIfFollow();
+    this.props.handleUpdate();
   };
 
   handleUnfollow = async () => {
@@ -88,6 +89,7 @@ class User extends React.Component {
       body: JSON.stringify({ follower: follower, followee: followee })
     });
     this.fetchIfFollow();
+    this.props.handleUpdate();
   };
 
   render() {
