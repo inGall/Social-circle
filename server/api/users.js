@@ -19,10 +19,19 @@ router.get('/checkIfUserAlreadyExist/:username', (req, res) => {
   });
 });
 
-/* Post.js, Profile.js, User.js */
+/* Post.js, Profile.js, User.js, Setting.js */
 router.get('/fetchNameOfUser/:username', (req, res) => {
   var username = req.params.username;
   Users.fetchNameOfUser(username, (err, users) => {
+    if (err) return res.json(err);
+    return res.json(users);
+  });
+});
+
+/* Setting.js */
+router.get('/fetchPassword/:username', (req, res) => {
+  var username = req.params.username;
+  Users.fetchPassword(username, (err, users) => {
     if (err) return res.json(err);
     return res.json(users);
   });
@@ -52,7 +61,28 @@ router.get('/validateCredentials/:username/:password', (req, res) => {
 router.post('/signup', (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
-  Users.signup(username, password, (err, result) => {
+  var name = req.body.name;
+  Users.signup(username, password, name, (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+
+/* Setting.js */
+router.put('/changeName', (req, res) => {
+  var username = req.body.username;
+  var name = req.body.name;
+  Users.changeName(username, name, (err, result) => {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+
+/* Setting.js */
+router.put('/changePassword', (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+  Users.changePassword(username, password, (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });

@@ -16,9 +16,17 @@ class Users {
     });
   }
 
-  /* Post.js, Profile.js, User.js */
+  /* Post.js, Profile.js, User.js, Setting.js */
   static fetchNameOfUser(username, callback) {
     db.query('SELECT name from users WHERE username = $1', [username], (err, res) => {
+      if (err.error) return callback(err);
+      callback(res);
+    });
+  }
+
+  /* Setting.js */
+  static fetchPassword(username, callback) {
+    db.query('SELECT password from users WHERE username = $1', [username], (err, res) => {
       if (err.error) return callback(err);
       callback(res);
     });
@@ -49,10 +57,30 @@ class Users {
   }
 
   /* LoginPage.js */
-  static signup(username, password, callback) {
+  static signup(username, password, name, callback) {
     db.query(
-      'INSERT INTO Users (username, password) VALUES ($1, $2)',
-      [username, password],
+      'INSERT INTO Users (username, password, name) VALUES ($1, $2, $3)',
+      [username, password, name],
+      (err, res) => {
+        if (err.error) return callback(err);
+        callback(res);
+      }
+    );
+  }
+
+  /* Setting.js */
+  static changeName(username, name, callback) {
+    db.query('UPDATE Users SET name = $1 WHERE username = $2', [name, username], (err, res) => {
+      if (err.error) return callback(err);
+      callback(res);
+    });
+  }
+
+  /* Setting.js */
+  static changePassword(username, password, callback) {
+    db.query(
+      'UPDATE Users SET password = $1 WHERE username = $2',
+      [password, username],
       (err, res) => {
         if (err.error) return callback(err);
         callback(res);

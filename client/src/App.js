@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import Search from './pages/Search';
 import Request from './pages/Request';
+import Setting from './pages/Setting';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Route exact path="/MainPage" component={MainPage} />
           <Route exact path="/Search" component={Search} />
           <Route exact path="/Request" component={Request} />
+          <Route exact path="/Setting" component={Setting} />
         </Switch>
       </Router>
     );

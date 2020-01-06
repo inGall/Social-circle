@@ -22,6 +22,10 @@ class Request extends React.Component {
             <Nav.Link href="/MainPage">Home</Nav.Link>
             <Nav.Link href="/Search">Search</Nav.Link>
             <Nav.Link href="/Request">Requests</Nav.Link>
+            <Nav.Link href="/Setting">Setting</Nav.Link>
+            <Nav.Link style={{ position: 'absolute', right: '20px' }} href="/LoginPage">
+              Logout
+            </Nav.Link>
           </Nav>
         </Navbar>
         <div>Request</div>
