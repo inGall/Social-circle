@@ -45,13 +45,10 @@ class User extends React.Component {
   fetchIfFollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
-    console.log(follower);
-    console.log(followee);
     const response = await fetch('/api/follows/fetchIfFollow/' + follower + '/' + followee);
     const body = await response.json();
     const response2 = await fetch('/api/requests/fetchIfRequest/' + follower + '/' + followee);
     const body2 = await response2.json();
-    console.log(body2);
     if (this._isMounted) {
       this.setState({
         status: body.length ? 'following' : body2.length ? 'pending' : 'follow'
