@@ -154,3 +154,14 @@
 .navFont {
   font-family: fantasy;
 }
+
+/******************* Request *******************/
+.request-div {
+  width: 70%;
+  margin: auto;
+}
+
+.requestFont {
+  margin-top: 30px;
+  font-family: cursive;
+}

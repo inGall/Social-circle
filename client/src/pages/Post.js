@@ -61,11 +61,9 @@ class Post extends React.Component {
     return (
       <div
         className="post"
-        style={
-          this.props.post.username === this.state.username
-            ? { border: '2px solid #28B463' }
-            : { border: '2px solid #F1C40F' }
-        }
+        style={{
+          border: this.props.post.username === this.state.username ? '2px solid #28B463' : '2px solid #F1C40F'
+        }}
       >
         <div className="post-photo"></div>
         <div className="post-profile">

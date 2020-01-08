@@ -22,3 +22,9 @@ CREATE TABLE Follows (
   followee varchar(50) REFERENCES Users (username),
   PRIMARY KEY (follower, followee)
 );
+
+CREATE TABLE Requests (
+  follower varchar(50) REFERENCES Users (username),
+  followee varchar(50) REFERENCES Users (username),
+  PRIMARY KEY (follower, followee)
+)

@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 app.use('/api/users', require('./api/users'));
 app.use('/api/posts', require('./api/posts'));
+app.use('/api/requests', require('./api/requests'));
 app.use('/api/follows', require('./api/follows'));
 
 if (ENV === 'production') {

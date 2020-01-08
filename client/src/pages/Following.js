@@ -41,6 +41,7 @@ class Following extends React.Component {
             user={this.state.username}
             friend={friend.followee}
             handleUpdate={this.handleFollowUpdate}
+            type={'follow'}
           />
         ))}
       </div>

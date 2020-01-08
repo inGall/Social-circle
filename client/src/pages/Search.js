@@ -16,11 +16,11 @@ class Search extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange(e) {
+  handleInputChange = async e => {
     if (e.target.value !== '') {
-      this.fetchUsersWithKeyword(e.target.value);
+      await this.fetchUsersWithKeyword(e.target.value);
     }
-  }
+  };
 
   fetchUsersWithKeyword = async keyword => {
     const response = await fetch('/api/users/fetchUsersWithKeyword/' + this.state.username + '/' + keyword);
@@ -63,6 +63,7 @@ class Search extends React.Component {
               content={friend.username}
               user={this.state.username}
               friend={friend.username}
+              type={'follow'}
             />
           ))}
         </div>

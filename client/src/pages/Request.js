@@ -2,17 +2,41 @@ import React from 'react';
 import '../App.css';
 
 import { Navbar, Nav } from 'react-bootstrap';
+import User from './User';
 import 'bootstrap/dist/css/bootstrap.css';
 
 class Request extends React.Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
-      following_list: []
+      username: localStorage.getItem('username'),
+      request_list: []
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this._isMounted = true;
+    this.fetchRequests();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  fetchRequests = async () => {
+    const response = await fetch('/api/requests/fetchRequests/' + this.state.username);
+    const body = await response.json();
+    if (this._isMounted) {
+      this.setState({
+        request_list: body
+      });
+    }
+  };
+
+  handleFollowUpdate = async () => {
+    await this.fetchRequests();
+  };
 
   render() {
     return (
@@ -28,7 +52,24 @@ class Request extends React.Component {
             </Nav.Link>
           </Nav>
         </Navbar>
-        <div>Request</div>
+        <div className="request-div">
+          <h2 style={{ marginTop: '30px' }}>Requests</h2>
+          <div className="requestFont">
+            {this.state.request_list.length
+              ? 'You have receive following requests from the following users'
+              : 'You have no pending requests at the moment'}
+          </div>
+          {this.state.request_list.map((friend, i) => (
+            <User
+              key={`${i}-friend`}
+              content={friend.follower}
+              user={this.state.username}
+              friend={friend.follower}
+              handleUpdate={this.handleFollowUpdate}
+              follow={'request'}
+            />
+          ))}
+        </div>
       </div>
     );
   }

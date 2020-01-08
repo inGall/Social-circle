@@ -13,7 +13,7 @@ class User extends React.Component {
       name: '',
       status: ''
     };
-    this.handleFollowRequest = this.handleFollowRequest.bind(this);
+    this.handleRequest = this.handleRequest.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +26,11 @@ class User extends React.Component {
     this._isMounted = false;
   }
 
+  componentDidUpdate() {
+    this.fetchNameOfUser();
+  }
+
+  /* Fetch name of user to display */
   fetchNameOfUser = async () => {
     const response = await fetch('/api/users/fetchNameOfUser/' + this.props.friend);
     const body = await response.json();
@@ -36,22 +41,37 @@ class User extends React.Component {
     }
   };
 
+  /* Check status of connection with friend */
   fetchIfFollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
+    console.log(follower);
+    console.log(followee);
     const response = await fetch('/api/follows/fetchIfFollow/' + follower + '/' + followee);
     const body = await response.json();
+    const response2 = await fetch('/api/requests/fetchIfRequest/' + follower + '/' + followee);
+    const body2 = await response2.json();
+    console.log(body2);
     if (this._isMounted) {
       this.setState({
-        status: body.length ? 'Following' : 'Follow'
+        status: body.length ? 'following' : body2.length ? 'pending' : 'follow'
       });
     }
   };
 
-  handleFollowRequest() {
-    if (this.state.status === 'Follow') {
-      this.handleFollow();
-    } else if (this.state.status === 'Following') {
+  /* Function calls when user click on Follow button */
+  handleRequest() {
+    if (this.state.status === 'follow') {
+      this.handleFollowRequest();
+      this.setState({
+        status: 'pending'
+      });
+    } else if (this.state.status === 'pending') {
+      this.setState({
+        status: 'follow'
+      });
+      this.handleRemoveRequest(this.props.user, this.props.friend);
+    } else if (this.state.status === 'following') {
       confirmAlert({
         title: 'Confirm changes',
         message: 'Are you sure to unfollow ' + this.props.friend + ' ?',
@@ -68,18 +88,40 @@ class User extends React.Component {
     }
   }
 
-  handleFollow = async () => {
+  /* Inserts entry into Request table */
+  handleFollowRequest = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
+    await fetch('/api/requests/handleFollowRequest', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ follower: follower, followee: followee })
+    });
+  };
+
+  /* Called when user accepts follow request */
+  handleFollow = async () => {
+    var follower = this.props.friend;
+    var followee = this.props.user;
     await fetch('/api/follows/handleFollow', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ follower: follower, followee: followee })
     });
-    this.fetchIfFollow();
+    this.handleRemoveRequest(this.props.friend, this.props.user);
+  };
+
+  /* Called when either Accept or Decline Button is clicked */
+  handleRemoveRequest = async (follower, followee) => {
+    await fetch('/api/requests/handleRemoveRequest', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ follower: follower, followee: followee })
+    });
     this.props.handleUpdate();
   };
 
+  /* Unfollows friend */
   handleUnfollow = async () => {
     var follower = this.props.user;
     var followee = this.props.friend;
@@ -96,11 +138,14 @@ class User extends React.Component {
     return (
       <div
         className="post"
-        style={
-          this.state.status === 'Following'
-            ? { border: '2px solid rgb(154, 38, 189)' }
-            : { border: ' 2px solid #5bc0de' }
-        }
+        style={{
+          border:
+            this.state.status === 'following'
+              ? '2px solid rgb(154, 38, 189)'
+              : this.state.status === 'pending'
+              ? '2px solid #F1C40F'
+              : '2px solid #5bc0de'
+        }}
       >
         <div className="post-photo"></div>
         <div className="user-content">
@@ -108,13 +153,33 @@ class User extends React.Component {
             <div style={{ fontWeight: '700' }}>{this.state.name}</div>
             <div>{'@' + this.props.content}</div>
           </div>
-          <Button
-            style={{ marginLeft: 'auto' }}
-            className={this.state.status === 'Following' ? 'btn btn-secondary' : 'btn btn-info'}
-            onClick={this.handleFollowRequest}
-          >
-            {this.state.status}
-          </Button>
+          {this.props.type === 'follow' ? (
+            <Button
+              style={{ marginLeft: 'auto' }}
+              className={
+                this.state.status === 'following'
+                  ? 'btn btn-secondary'
+                  : this.state.status === 'pending'
+                  ? 'btn btn-warning'
+                  : 'btn btn-info'
+              }
+              onClick={this.handleRequest}
+            >
+              {this.state.status}
+            </Button>
+          ) : (
+            <div style={{ marginLeft: 'auto' }}>
+              <Button variant="success" onClick={this.handleFollow}>
+                Accept
+              </Button>
+              <Button
+                variant="warning"
+                onClick={() => this.handleRemoveRequest(this.props.friend, this.props.user)}
+              >
+                Decline
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     );
